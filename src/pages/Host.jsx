@@ -8,8 +8,8 @@ import AnswerBars from "../components/AnswerBars";
 import Leaderboard from "../components/Leaderboard";
 import ConfettiBurst from "../components/ConfettiBurst";
 
-const CATEGORY_LABEL = { couple: "Our Story 💕", wedding: "Wedding Trivia 💒", guess: "Newlywed Guess 😏" };
-const CATEGORY_COLOR = { couple: "var(--blush)", wedding: "var(--sky)", guess: "var(--butter)" };
+const CATEGORY_LABEL = { couple: "Our Story 💕", wedding: "Wedding Trivia 💒", guess: "Newlywed Guess 😏", vibe: "Crowd Vibe Check 🎉" };
+const CATEGORY_COLOR = { couple: "var(--blush)", wedding: "var(--sky)", guess: "var(--butter)", vibe: "var(--lavender)" };
 
 export default function Host() {
   const [state, setState] = useState(null);
