@@ -2,12 +2,14 @@ import { QUESTION_TIME_SECONDS, MAX_POINTS, MIN_POINTS } from "../data/questions
 
 // Game phases, stored in state.phase:
 // "lobby"      -> waiting for guests to join, host hasn't started
+// "intro"      -> shared "get ready" / rules screen, host hasn't launched Q1 yet
 // "question"   -> a question is live, timer running
 // "reveal"     -> timer ended / host advanced, correct answer + leaderboard shown
 // "ended"      -> all questions done, final leaderboard
 
 export const PHASES = {
   LOBBY: "lobby",
+  INTRO: "intro",
   QUESTION: "question",
   REVEAL: "reveal",
   ENDED: "ended",
