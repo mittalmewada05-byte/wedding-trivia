@@ -101,6 +101,21 @@ export default function Play() {
           <h2 style={{ fontSize: 24, margin: "10px 0" }}>You're in, {playerName}!</h2>
           <p style={{ color: "var(--text-soft)" }}>Sit tight — the host will start the game any moment.</p>
           <div className="spinner" />
+          <div
+            style={{
+              marginTop: 22,
+              padding: "14px 16px",
+              background: "var(--lavender)",
+              borderRadius: "var(--radius-md)",
+              textAlign: "left",
+              fontSize: 14,
+              lineHeight: 1.5,
+            }}
+          >
+            <strong>⚡ Quick tip:</strong> answer fast for more points — speed counts,
+            not just being right. Get ready to find out who actually knows Vidhi &
+            Sudhir 👀
+          </div>
         </div>
         <style>{`
           .spinner {
@@ -110,6 +125,48 @@ export default function Play() {
           }
           @keyframes spin { to { transform: rotate(360deg); } }
         `}</style>
+      </div>
+    );
+  }
+
+  // ── INTRO / HYPE SCREEN ─────────────────────────────
+  if (state.phase === PHASES.INTRO) {
+    return (
+      <div className="page-center">
+        <div className="card pop-in" style={{ textAlign: "center", maxWidth: 440 }}>
+          <div style={{ fontSize: 44 }}>💍🎉</div>
+          <h2 style={{ fontSize: 26, marginBottom: 6 }}>Vidhi & Sudhir's Wedding Trivia</h2>
+          <p style={{ color: "var(--text-soft)", marginBottom: 18, fontSize: 15 }}>
+            Let's find out who <em>actually</em> knows the bride and groom — and who's
+            just here for the food. No judgment either way. 😏
+          </p>
+          <div
+            style={{
+              textAlign: "left",
+              background: "rgba(74,46,92,0.06)",
+              borderRadius: "var(--radius-md)",
+              padding: "16px 18px",
+              fontSize: 14,
+              lineHeight: 1.6,
+              marginBottom: 8,
+            }}
+          >
+            <p style={{ margin: "0 0 8px" }}>
+              📱 <strong>How to play:</strong> each question gives you 4 choices and 30
+              seconds. Tap your answer before time's up.
+            </p>
+            <p style={{ margin: "0 0 8px" }}>
+              ⚡ <strong>Scoring:</strong> the faster you answer correctly, the more
+              points you get. Being right matters — but being quick matters too.
+            </p>
+            <p style={{ margin: 0 }}>
+              🫣 <strong>Fair warning:</strong> some questions might embarrass the
+              bride. Some might embarrass the groom. We promise it's equal
+              opportunity.
+            </p>
+          </div>
+          <p style={{ fontSize: 13, color: "var(--text-soft)" }}>Get your thumbs ready…</p>
+        </div>
       </div>
     );
   }
@@ -215,6 +272,7 @@ export default function Play() {
               choices={question.choices}
               counts={counts}
               total={total}
+              totalPlayers={Object.keys(players || {}).length}
               myChoice={myChoice}
               revealCorrect={state.phase === PHASES.REVEAL ? question.correct : null}
             />
