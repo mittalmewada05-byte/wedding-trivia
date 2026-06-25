@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ── Pastel palette ───────────────────────────── */
+  --lavender: #C9B8E8;
+  --blush: #F4B8C8;
+  --mint: #A8E0C8;
+  --butter: #F5E08C;
+  --sky: #A8D4E8;
+  --plum: #4A2E5C;       /* deep, for text/contrast */
+  --plum-soft: #6B4E7D;
+  --cream: #FFF9F2;      /* base background */
+  --white: #FFFFFF;
+
+  /* semantic */
+  --bg: var(--cream);
+  --text: var(--plum);
+  --text-soft: var(--plum-soft);
+  --accent-a: var(--lavender);
+  --accent-b: var(--blush);
+  --accent-c: var(--mint);
+  --accent-d: var(--butter);
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --shadow-card: 0 8px 24px rgba(74, 46, 92, 0.12);
+  --shadow-pop: 0 4px 14px rgba(74, 46, 92, 0.18);
+
+  --font-display: 'Baloo 2', sans-serif;
+  --font-body: 'Quicksand', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--plum);
+  outline-offset: 2px;
+}
+
+input {
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,32 @@
+// ─────────────────────────────────────────────────────────────
+// FIREBASE REALTIME DATABASE — SECURITY RULES
+// ─────────────────────────────────────────────────────────────
+// Paste this into: Firebase Console → Realtime Database → Rules tab → Publish
+//
+// "Test mode" rules (open read/write) auto-expire after 30 days, which
+// would break the app if your wedding is further out than that. These
+// rules instead stay open ONLY for the "games/main" path used by this
+// app — open enough for guests to join/answer without logging in
+// (there's no auth system here, by design, to keep guest join friction
+// at zero), but they don't expire and don't open your whole database.
+// ─────────────────────────────────────────────────────────────
+
+{
+  "rules": {
+    "games": {
+      "main": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "$other": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}
+
+// Note: because this allows anyone with the database URL to read/write,
+// don't put anything sensitive in here — it's just trivia game state
+// (names, scores, answer choices), which is low-stakes for a one-night
+// private event. Don't reuse this Firebase project for anything else.
