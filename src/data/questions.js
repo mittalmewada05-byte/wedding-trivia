@@ -3,93 +3,127 @@
 // ─────────────────────────────────────────────────────────────
 // • Replace [bracketed] placeholders with your real details.
 // • `correct` is the 0-based index of the right answer (0=A, 1=B, 2=C, 3=D).
-// • `category` just controls the little label + accent color shown on screen.
-//   Options: "couple" | "wedding" | "guess"
+// • `category` controls the little label + accent color shown on screen.
+//   Options: "couple" | "guess" | "vibe"
+//   - "guess" = real answer exists, scored normally.
+//   - "vibe"  = no real right/wrong — it's a room read. Whatever you set
+//     as `correct` is just whichever option you (the host) want to
+//     highlight live based on the crowd's reaction — totally your call
+//     in the moment, change it before the big day or even live if you want.
 // • Keep exactly 4 choices per question — the UI is built around 4.
-// • You can reorder, add, or delete questions freely; just keep the
-//   same shape for each object.
+// • Reorder, add, or delete questions freely; keep the same shape.
 // ─────────────────────────────────────────────────────────────
 
 export const COUPLE_NAMES = {
-  partnerA: "Partner A",
-  partnerB: "Partner B",
+  partnerA: "Vidhi",
+  partnerB: "Sudhir",
 };
 
 export const QUESTIONS = [
   {
     id: 1,
     category: "guess",
-    prompt: "Who is more likely to cry first during the ceremony?",
-    choices: ["Partner A", "Partner B", "Both, simultaneously", "Neither — ice queens"],
+    prompt: "Who is more likely to hit snooze 5 times before actually getting up?",
+    choices: ["Vidhi", "Sudhir", "Both — alarms fear them equally", "Neither, disgustingly punctual"],
     correct: 0,
   },
   {
     id: 2,
     category: "couple",
-    prompt: "Where did Partner A and Partner B first meet?",
-    choices: ["[Real location]", "A bar in Cleveland", "On a dating app", "Through mutual friends"],
+    prompt: "Where did Vidhi and Sudhir actually meet?",
+    choices: ["Grad school", "A wedding (someone else's)", "Through family", "A coffee shop"],
     correct: 0,
   },
   {
     id: 3,
-    category: "wedding",
-    prompt: 'Traditionally, what does "something blue" symbolize in the old wedding rhyme?',
-    choices: ["Fidelity and loyalty", "Good luck", "Wealth", "New beginnings"],
+    category: "guess",
+    prompt: "Who is the noisier sleeper?",
+    choices: ["Vidhi", "Sudhir", "Tie — earplugs required", "Neither, content gremlins"],
     correct: 0,
   },
   {
     id: 4,
     category: "couple",
-    prompt: "What did they do on their first official date?",
-    choices: ["[Real answer]", "Mini golf gone wrong", "A movie neither remembers", "A walk that 'wasn't a date'"],
+    prompt: "What did Vidhi and Sudhir actually bond over first in grad school?",
+    choices: ["[Real answer]", "Arguing over the last samosa at a department event", "A shared deadline panic at 2 AM", "A mutual hatred of group projects"],
     correct: 0,
   },
   {
     id: 5,
     category: "guess",
-    prompt: 'Who said "I love you" first?',
-    choices: ["Partner A", "Partner B", "They said it at the same time", "It's still TBD"],
-    correct: 0,
+    prompt: "Who takes longer to reply to texts, even now?",
+    choices: ["Vidhi", "Sudhir", "Both, equally terrible", "Neither — instant replies, disgustingly functional"],
+    correct: 1,
   },
   {
     id: 6,
-    category: "wedding",
-    prompt: "Historically, why does the bride traditionally stand on the groom's left?",
-    choices: [
-      "So his right hand was free to fight off rival suitors",
-      "It was considered good luck",
-      "A tradition borrowed from royal weddings",
-      "No real reason — just convention",
-    ],
+    category: "guess",
+    prompt: 'Who said "I love you" first?',
+    choices: ["Vidhi", "Sudhir", "Said it at the same time, ruining the moment", "Still hasn't technically happened"],
     correct: 0,
   },
   {
     id: 7,
-    category: "couple",
-    prompt: "Where did the proposal happen?",
-    choices: ["[Real location]", "In line at Costco", "At a sports game, on the big screen", "On a Zoom call"],
-    correct: 0,
+    category: "vibe",
+    prompt: "How many years until baby #1 shows up? (No wrong answers, just vibes 👀)",
+    choices: ["Less than 1 year", "1–2 years", "3+ years — let them enjoy married life first", "Not telling us anything"],
+    correct: 2,
   },
   {
     id: 8,
-    category: "wedding",
-    prompt: "What's the most popular month to get married in the U.S.?",
-    choices: ["June", "December", "February", "March"],
+    category: "guess",
+    prompt: "Who has been caught talking to their phone or laptop like it can hear them?",
+    choices: ["Vidhi", "Sudhir", "Both, frequently", "Neither, too dignified for that"],
     correct: 0,
   },
   {
     id: 9,
     category: "guess",
-    prompt: "Who takes longer to get ready before going out?",
-    choices: ["Partner A", "Partner B", "They're exactly the same", "Depends entirely on the occasion"],
-    correct: 0,
+    prompt: "Who is the better cook, honestly?",
+    choices: ["Vidhi", "Sudhir", "Equally dangerous in a kitchen", "They order in, let's be real"],
+    correct: 1,
   },
   {
     id: 10,
-    category: "couple",
-    prompt: "What song is their first dance?",
-    choices: ["[Real song]", "Their inside-joke song", "Something dramatically operatic", "Whatever the DJ grabs last-minute"],
+    category: "guess",
+    prompt: "Who takes the most pictures of their food before eating it?",
+    choices: ["Vidhi", "Sudhir", "Both — food gets cold while they pose it", "Neither, food doesn't survive that long"],
     correct: 0,
+  },
+  {
+    id: 11,
+    category: "vibe",
+    prompt: "Whose side will dance the hardest at the reception tonight? (Room vote — no wrong answers!)",
+    choices: ["The Mewada side", "The More side", "Equally unhinged, honestly", "The DJ — he's not even related"],
+    correct: 2,
+  },
+  {
+    id: 13,
+    category: "vibe",
+    prompt: 'Who is more likely to fall asleep during a movie, then insist they "saw the whole thing"?',
+    choices: ["Vidhi", "Sudhir", "Both, every single time", "Neither — they live-tweet the plot holes"],
+    correct: 2,
+  },
+  {
+    id: 14,
+    category: "vibe",
+    prompt: 'Who takes the longest to actually leave after saying "I\'m leaving in 5 minutes"?',
+    choices: ["Vidhi", "Sudhir", 'Both — "5 minutes" is a lie they both tell', "Neither, scarily punctual people"],
+    correct: 2,
+  },
+  {
+    id: 15,
+    category: "vibe",
+    prompt: "Who has a more dramatic reaction to losing at a board game or cards?",
+    choices: ["Vidhi", "Sudhir", "Both — competitive chaos", "Neither, suspiciously chill losers"],
+    correct: 2,
+  },
+  {
+    id: 16,
+    category: "vibe",
+    prompt: 'Who is more likely to start a sentence with "okay but hear me out" before a questionable idea?',
+    choices: ["Vidhi", "Sudhir", "Both, constantly", "Neither, all ideas pre-approved by logic"],
+    correct: 2,
   },
 ];
 
