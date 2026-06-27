@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { dbRefs, onValue, set, update, serverTimestamp, remove } from "../lib/firebase";
 import { QUESTIONS, QUESTION_TIME_SECONDS } from "../data/questions";
@@ -41,6 +41,12 @@ export default function Host() {
   const playerCount = Object.keys(players || {}).length;
   const { counts, total } = question ? tallyAnswers(answers, question.choices.length) : { counts: [], total: 0 };
 
+  // Tracks which question index was most recently revealed *forward*
+  // (via "Reveal Now" or the timer expiring), so confetti only fires the
+  // first time a question is revealed — not when navigating back to
+  // re-view an earlier one with the Previous button.
+  const lastRevealedIndexRef = useRef(-1);
+
   async function showIntro() {
     await set(dbRefs.state(), { phase: PHASES.INTRO, questionIndex: -1 });
   }
@@ -67,11 +73,24 @@ export default function Host() {
   }
 
   async function revealAnswer() {
+    lastRevealedIndexRef.current = questionIndex;
     await update(dbRefs.state(), { phase: PHASES.REVEAL });
   }
 
+  async function previousQuestion() {
+    const prevIndex = questionIndex - 1;
+    if (prevIndex < 0) return; // already at Q1, nothing earlier to show
+    // Land on REVEAL for the earlier question so the host can see that
+    // question's answers + leaderboard again, without reopening voting.
+    await set(dbRefs.state(), {
+      phase: PHASES.REVEAL,
+      questionIndex: prevIndex,
+      questionStartedAt: state?.questionStartedAt || Date.now(),
+    });
+  }
+
   async function resetGame() {
-    if (!window.confirm("Reset the whole game? This clears scores and answers (players stay joined).")) return;
+    if (!window.confirm("Reset the game? This clears scores and answers (players stay joined).")) return;
     for (let i = 0; i < QUESTIONS.length; i++) {
       await remove(dbRefs.answers(i));
     }
@@ -80,6 +99,22 @@ export default function Host() {
       updates[id] = { ...players[id], score: 0 };
     });
     await set(dbRefs.players(), updates);
+    lastRevealedIndexRef.current = -1;
+    await set(dbRefs.state(), { phase: PHASES.LOBBY, questionIndex: -1 });
+  }
+
+  async function clearEverything() {
+    if (
+      !window.confirm(
+        "Start completely fresh? This removes ALL joined guests, scores, and answers — everyone will need to re-scan the QR code and rejoin. Use this right before the real game, not between test runs."
+      )
+    )
+      return;
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      await remove(dbRefs.answers(i));
+    }
+    await remove(dbRefs.players());
+    lastRevealedIndexRef.current = -1;
     await set(dbRefs.state(), { phase: PHASES.LOBBY, questionIndex: -1 });
   }
 
@@ -176,7 +211,7 @@ export default function Host() {
 
       {state.phase === PHASES.REVEAL && question && (
         <div className="card pop-in">
-          {questionIndex >= 0 && <ConfettiBurst count={30} />}
+          {questionIndex === lastRevealedIndexRef.current && <ConfettiBurst count={30} />}
           <QuestionHeader index={questionIndex} question={question} />
           <h2 style={{ fontSize: 22, textAlign: "center", marginBottom: 6 }}>{question.prompt}</h2>
           <p style={{ textAlign: "center", color: "var(--text-soft)", marginBottom: 16, fontWeight: 600 }}>
@@ -187,7 +222,15 @@ export default function Host() {
             <h3 style={{ fontSize: 17, marginBottom: 12, textAlign: "center" }}>Leaderboard</h3>
             <Leaderboard players={getLeaderboard(players)} limit={8} />
           </div>
-          <div style={{ textAlign: "center", marginTop: 20 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 20, flexWrap: "wrap" }}>
+            <button
+              onClick={previousQuestion}
+              className="btn-secondary"
+              disabled={questionIndex <= 0}
+              style={{ fontSize: 16, padding: "12px 24px", opacity: questionIndex <= 0 ? 0.5 : 1 }}
+            >
+              ← Previous Question
+            </button>
             <button onClick={nextQuestion} className="btn-primary" style={{ fontSize: 18, padding: "14px 32px" }}>
               {questionIndex + 1 >= QUESTIONS.length ? "See Final Results 🏆" : "Next Question →"}
             </button>
@@ -204,9 +247,12 @@ export default function Host() {
         </div>
       )}
 
-      <div style={{ textAlign: "center", marginTop: 28 }}>
+      <div style={{ textAlign: "center", marginTop: 28, display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
         <button onClick={resetGame} className="btn-ghost">
-          Reset game
+          Reset scores (keep guests joined)
+        </button>
+        <button onClick={clearEverything} className="btn-ghost" style={{ color: "#C0507A" }}>
+          Clear everyone & start fresh
         </button>
       </div>
     </div>
